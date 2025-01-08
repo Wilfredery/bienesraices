@@ -1,7 +1,7 @@
 <?php 
         require '../../includes/funciones.php';
         
-        addingTemplates('header', $inicio = true);
+        addingTemplates('header');
     ?>
 
 <main class="conte seccion">

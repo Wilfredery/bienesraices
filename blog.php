@@ -1,5 +1,7 @@
     <?php 
-        include 'includes/templates/header.php';
+        require 'includes/funciones.php';
+        
+        addingTemplates('header');
     ?>  
     
     <main class="contenedor seccion contenedo-centrado">

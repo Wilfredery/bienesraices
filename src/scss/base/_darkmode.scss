@@ -34,7 +34,7 @@
             color: $gris;
         }
     
-        input:not([type="text"]), textarea, select {
+        input, textarea, select {
             background-color: $grisOscuro;
             color: $blanco;
             border: 1px solid $grisOscuro;
