@@ -69,7 +69,7 @@
                 <input type="time" id="hora" min="09:00" max="18:00">
             </fieldset>
 
-            <input type="submit" value="Enviar" class="boton-verde btnform">
+            <input type="submit" value="Enviar" class="boton-verde-block">
         </form>
     </main>
 

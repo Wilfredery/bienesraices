@@ -123,7 +123,7 @@
             var_dump($nombreImagen);
 
             //Subir la imagen
-            move_uploaded_file($imagen['tmp_name'], $imagefile .$nombreImagen. ".jpg");
+            move_uploaded_file($imagen['tmp_name'], $imagefile .$nombreImagen);
             
                         //insertar en la base de datos
             $query = "INSERT INTO propiedades (titulo, precio, imagen, Descripción, habitaciones, bathroom, estacionamiento, creado, vendedores_idvendedores) VALUES ('$titulo', '$precio', '$nombreImagen', '$descrp', '$habit', '$bath', '$estac', '$creado', '$seller') ";
@@ -149,7 +149,7 @@
 
 
 
-<main class="conte seccion">
+<main class="contenedor seccion">
     <h1>Crear</h1>
 
     <a href="/admin" class="boton boton-verde">Volver</a>

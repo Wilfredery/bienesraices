@@ -23,7 +23,7 @@
         height: 20rem;
     }
 
-    input,
+    input:not([type='submit']),
     textarea,
     select {
         padding: 1rem;
@@ -33,6 +33,7 @@
         border: 1px solid $gris;
         border-radius: 1rem;
         margin-bottom: 2rem;
+        color: $negro;
     }
 
     .forma-contacto {
@@ -49,6 +50,7 @@
     .btnform {
         margin: 2rem 0;
         color: $negro;
+        
     }
 }
 
