@@ -9,8 +9,6 @@
 
         <picture>
 
-            <source srcset="build/img/destacada.webp" type="image/webp">
-            <source srcset="build/img/destacada.jpg" type="image/jpeg">
             <img loading="lazy" src="build/img/destacada.jpg" alt="imagenCasaBosque">
 
         </picture>

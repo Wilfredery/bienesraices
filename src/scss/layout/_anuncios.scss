@@ -4,7 +4,10 @@
 
 @include tablet {
     .contenedor-anuncios {
-        @include grid(3,2rem);
+        display: grid;
+        grid-template-columns: minmax(0, auto) minmax(0, auto) minmax(0, auto);
+        grid-template-rows: minmax(0, auto);
+        gap: 1rem;
     }
 }
 
@@ -20,6 +23,7 @@
 
     h3, p {
         margin: 0;
+        word-wrap: break-word;
     }
 }
 
