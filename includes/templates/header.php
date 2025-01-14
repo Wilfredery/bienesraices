@@ -31,7 +31,15 @@
 
             </div>
 
-            <h1>Venta de Casas y Departaments Exclusivos de lujo</h1>
+            <?php 
+
+                // if($inicio) {
+                //     echo "<h1>Venta de Casas y Departaments Exclusivos de lujo</h1>";
+                // }
+
+                echo $inicio ? "<h1>Venta de Casas y Departamentos Exclusivos de lujo</h1>" : '';
+
+            ?>
         </div>
 
     </header>   
