@@ -8,6 +8,13 @@
         // echo "</pre>";
         // exit;
 
+        require '../includes/funciones.php';
+        $auth = estaAuth();
+    
+        if(!$auth) {
+            header('Location: /');
+        }
+
         //Importar la conexion
         require '../includes/config/database.php';
         $db = conectarDB();
@@ -44,7 +51,6 @@
             }
         }
         //Template agregado
-        require '../includes/funciones.php';
         
         addingTemplates('header');
 ?>

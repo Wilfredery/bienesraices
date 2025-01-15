@@ -1,4 +1,11 @@
 <?php 
+    require '../../includes/funciones.php';
+    $auth = estaAuth();
+
+    if(!$auth) {
+        header('Location: /');
+    }
+
     
         // echo "<pre>";
         // var_dump($_GET);
@@ -177,7 +184,7 @@
     }
 
 
-    require '../../includes/funciones.php';
+    
         
     addingTemplates('header');
     ?>
