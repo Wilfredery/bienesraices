@@ -1,7 +1,9 @@
 
 <?php
 //declare(strict_types=1);
-require 'app.php';
+// require 'app.php';
+define('TEMPLATES_URL', __DIR__ .'/templates');
+define('FUNCIONES_URL', __DIR__ . 'funciones.php');
 
 function addingTemplates(string $nombre, bool $inicio = false ) {
     include TEMPLATES_URL . "/{$nombre}.php";
@@ -13,11 +15,16 @@ function estaAuth() : bool {
     // var_dump($_SESSION);
 
     // echo '</pre>';
-    $auth = $_SESSION['login'];
-    if($auth) {
-        return true;
+    if(!$_SESSION['login']) {
+        header('Location: /');
     }
+    return true;
 
-    return false;
+}
+
+function debug($var) {
+    echo "<pre>";
+    var_dump($var);
+    echo "</pre>";
 }
 ?>

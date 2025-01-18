@@ -1,0 +1,18 @@
+{
+    "name": "wilfr/bienesraices",
+    "description": "Creando un proyecto con POO",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Wilfr\\Bienesraices\\": "src/",
+            "App\\" : "./Clases"
+        }
+    },
+    "authors": [
+        {
+            "name": "Wilfredery",
+            "email": "wilfredery30@gmail.com"
+        }
+    ],
+    "require": {}
+}

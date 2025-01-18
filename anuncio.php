@@ -6,8 +6,10 @@
     if(!$id) {
         header('Location: /');
     }
+
+    require 'includes/app.php';  
     //importar la base de datos
-    require 'includes/config/database.php';
+    // require 'includes/config/database.php';
     $db =conectarDB();
     //Consular
     $query = "SELECT * FROM propiedades WHERE idpropiedades = $id";
@@ -24,8 +26,7 @@
     // var_dump($id);
     // echo "</pre>";
     // exit;
-
-    require 'includes/funciones.php';        
+      
     addingTemplates('header');
 ?>
     

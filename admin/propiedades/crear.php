@@ -1,13 +1,17 @@
 <?php 
-    require '../../includes/funciones.php';
-    $auth = estaAuth();
+    require '../../includes/app.php';
 
-    if(!$auth) {
-        header('Location: /');
-    }
+    use App\Propiedad;
+    // $propiedad = new Propiedad;
+    // debug($propiedad);
+
+    estaAuth();
+
+    // if(!$auth) {
+    //     header('Location: /');
+    // }
 
     //base de datos
-    require '../../includes/config/database.php';
     $db = conectarDB();
 
     //Consultar para obtener los vendedores
@@ -29,14 +33,8 @@
 
     //Ejecutar el codigo luego del usuario envia el form.
     if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-        // echo "<pre>";
-        // var_dump($_POST);
-        // echo "</pre>";
-
-        // echo "<pre>";
-        // var_dump($_FILES);
-        // echo "</pre>";
-
+        
+        $propiedad = new Propiedad($_POST);
         
 
         $num =  '1hola';

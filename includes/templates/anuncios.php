@@ -1,7 +1,7 @@
 <?php 
 
     //importar la base de datos
-    require 'includes/config/database.php';
+    // require 'includes/config/database.php';
     $db =conectarDB();
     //Consular
     $query = "SELECT * FROM propiedades LIMIT $limite";
