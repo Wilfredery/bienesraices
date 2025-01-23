@@ -1,27 +1,24 @@
 <?php
-    // echo "<pre>";
-    // var_dump($_POST);
-    // echo "</pre>";
+    require '../includes/app.php';
+    estaAuth();
 
-        // echo "<pre>";
-        // var_dump($_GET);
-        // echo "</pre>";
-        // exit;
+    use App\Propiedad;
 
-        require '../includes/funciones.php';
-        $auth = estaAuth();
-    
-        if(!$auth) {
-            header('Location: /');
-        }
+    //Implementar un metodo para obtener todas las propiedades
+    $propiedades = Propiedad::all();
+    // debug($propiedades);
 
-        //Importar la conexion
-        require '../includes/config/database.php';
-        $db = conectarDB();
+        // if(!$auth) {
+        //     header('Location: /');
+        // }
+
+        // //Importar la conexion
+        // require '../includes/config/database.php';
+        // $db = conectarDB();
         //Escribir el Query
-        $query = "SELECT * FROM propiedades";
-        //Consultar la base de datos
-        $resultadoDB = mysqli_query($db, $query);
+        // $query = "SELECT * FROM propiedades";
+        // //Consultar la base de datos
+        // $resultadoDB = mysqli_query($db, $query);
 
         //mostrar mensaje condicional
         $mensaje = $_GET['mensaje'] ?? null;
@@ -84,26 +81,26 @@
 
         <tbody> <!--Mostrar los resultados-->
 
-            <?php while($propiedad = mysqli_fetch_assoc($resultadoDB)): ?>
+            <?php foreach( $propiedades as $propiedad): ?>
 
             <tr>
-                <td> <?php echo $propiedad['idpropiedades']; ?> </td>
-                <td> <?php echo $propiedad['titulo']; ?> </td>
-                <td><img class="imagen-tabla" src="/imagenes/<?php echo $propiedad['imagen']; ?>" alt=""></td>
-                <td>$<?php echo $propiedad['precio']; ?> </td>
+                <td> <?php echo $propiedad->idpropiedades; ?> </td>
+                <td> <?php echo $propiedad->titulo; ?> </td>
+                <td><img class="imagen-tabla" src="/imagenes/<?php echo $propiedad->imagen; ?>" alt=""></td>
+                <td>$<?php echo $propiedad->precio; ?> </td>
                 <td>
 
                     <form method="POST" class="w-100">
-                        <input type="hidden" name="id" value="<?php echo $propiedad['idpropiedades']; ?>">
+                        <input type="hidden" name="id" value="<?php echo $propiedad->idpropiedades; ?>">
 
                         <input class="boton-rojo-block" value="Eliminar" type="submit" >
                     </form>
                     
-                    <a class="boton-amarillo-block" href="admin/propiedades/actualizar.php?id=<?php echo $propiedad['idpropiedades']; ?>">Actualizar</a>
+                    <a class="boton-amarillo-block" href="admin/propiedades/actualizar.php?id=<?php echo $propiedad->idpropiedades; ?>">Actualizar</a>
                 </td>
             </tr>
 
-            <?php endwhile; ?>
+            <?php endforeach; ?>
         </tbody>
     </table>
 

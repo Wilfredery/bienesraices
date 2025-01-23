@@ -30,4 +30,10 @@ function debug($var) {
 
     exit;
 }
+
+//Escape/Sanitizar el HTML
+function sanitizar($html) : string {
+    $sanit = htmlspecialchars($html);
+    return $sanit;
+}
 ?>
