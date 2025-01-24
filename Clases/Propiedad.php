@@ -41,7 +41,17 @@ class Propiedad {
     
   }
 
-  function guardar() {
+  public function guardar() {
+    if(is_null($this->idpropiedades)) {
+      //actualizar
+      $this->actualizar();
+    } else {
+      //Creando un nuevo registro.
+      $this->crear();
+    }
+  }
+
+  public function crear() {
 
     //Sanitizar los datos.
     $atributos = $this->sanitizarDB();
@@ -59,6 +69,28 @@ class Propiedad {
     // debug($result);
 
     return $result;
+  }
+
+  public function actualizar() {
+    $atributos = $this->atributos();
+
+    $valores = [];
+
+    foreach($atributos as $key => $value) {
+        $valores[] = "$key ='$value'";
+    }
+    $query = "UPDATE propiedades SET ";
+    $query .+ join(', ', $valores);
+    $query .= "WHERE idpropiedades = '" . self::$db->escape_string($this->idpropiedades). "' ";
+    $query .= " Limit 1 ";
+    
+    $resultado = self::$db->query($query);
+
+    if($resultado) {
+      //redireccionar al usuario.
+      header("Location: /admin?mensaje=2");
+
+  }
   }
 
   //Identificar y unir los atributos de la DB. O sea, identificar cuales tenemos.
@@ -129,12 +161,24 @@ class Propiedad {
   }
 
   public function setImage($imagen) {
+    //Elimina la iamgen previa.
+    if(is_null($this->idpropiedades)) {
+      //Comprobar si existe el archivo.
+      $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
+      
+      if($existeArchivo) {
+        unlink(CARPETA_IMAGENES . $this->imagen);
+      }
+    }
+
+
+    //Asigna el atributo de imagen el nombre de la imagen.
     if($imagen) {
       $this->imagen = $imagen;
     }
   }
 
-  //Lista todas las propiedades
+  //Lista todas las registros
   public static function all() {
     $query = "SELECT * FROM propiedades";
     $resultado = self::consultSQL($query);
@@ -142,10 +186,17 @@ class Propiedad {
     return $resultado;
   }
 
+  //Busca una registro por su id.
+  public static function find($id){
+    $query = "SELECT * FROM propiedades WHERE idpropiedades = $id";
+    $resultado = self::consultSQL($query);
+    return array_shift($resultado);
+  }
+
   public static function consultSQL($query) {
     //Consultar la base de datos
     $resultado = self::$db->query($query);
-
+    
     //Iterar los resultados.
     // debug($resultado->fetch_assoc());
 
@@ -174,6 +225,15 @@ class Propiedad {
     }
 
     return $objeto;
+  }
+
+  //Sincronizar el objeto en memoria con los cambios realizados por el usuario.
+  public function sincronizar($args = []) {
+    foreach($args as $key => $value) {
+      if (property_exists($this, $key) && !is_null($value)) {
+        $this->$key = $value;
+      }
+    }
   }
 }
 
