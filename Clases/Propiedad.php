@@ -28,7 +28,7 @@ class Propiedad {
   }
 
   public function __construct($args = []) {
-    $this->idpropiedades = $args['idpropiedades'] ?? '';
+    $this->idpropiedades = $args['idpropiedades'] ?? null;
     $this->titulo = $args['titulo'] ?? '';
     $this->precio = $args['precio'] ?? '';
     $this->imagen = $args['imagen'] ?? '';
@@ -42,11 +42,13 @@ class Propiedad {
   }
 
   public function guardar() {
-    if(is_null($this->idpropiedades)) {
+    if(!is_null($this->idpropiedades)) {
       //actualizar
       $this->actualizar();
+      
     } else {
       //Creando un nuevo registro.
+      
       $this->crear();
     }
   }
@@ -65,10 +67,14 @@ class Propiedad {
 
     // debug($query);
 
-    $result = self::$db->query($query);
+    $resultado = self::$db->query($query);
     // debug($result);
 
-    return $result;
+    if($resultado) {
+      //redireccionar al usuario.
+      header("Location: /admin?mensaje=1");
+
+    }
   }
 
   public function actualizar() {
@@ -80,7 +86,7 @@ class Propiedad {
         $valores[] = "$key ='$value'";
     }
     $query = "UPDATE propiedades SET ";
-    $query .+ join(', ', $valores);
+    $query .= join(', ', $valores);
     $query .= "WHERE idpropiedades = '" . self::$db->escape_string($this->idpropiedades). "' ";
     $query .= " Limit 1 ";
     
@@ -90,7 +96,23 @@ class Propiedad {
       //redireccionar al usuario.
       header("Location: /admin?mensaje=2");
 
+    }
   }
+
+  //Eliminar un registro
+  public function eliminar() {
+    //Elimina la propiedad.
+    $query =  "DELETE FROM propiedades WHERE idpropiedades = " . self::$db->escape_string($this->idpropiedades) . " LIMIT 1";
+
+    $resultado = self::$db->query($query);
+
+    if($resultado) {
+      //Llamando al metodo borrar la imagen
+      $this->borrarImagen();
+      //redireccionar al usuario.
+      header("Location: /admin?mensaje=3");
+
+    }
   }
 
   //Identificar y unir los atributos de la DB. O sea, identificar cuales tenemos.
@@ -162,21 +184,31 @@ class Propiedad {
 
   public function setImage($imagen) {
     //Elimina la iamgen previa.
-    if(is_null($this->idpropiedades)) {
+    if(!is_null($this->idpropiedades)) {
       //Comprobar si existe el archivo.
-      $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
-      
-      if($existeArchivo) {
-        unlink(CARPETA_IMAGENES . $this->imagen);
-      }
+      $this->borrarImagen();
     }
-
 
     //Asigna el atributo de imagen el nombre de la imagen.
     if($imagen) {
       $this->imagen = $imagen;
     }
   }
+
+  //Borar la imagen del archivo.
+  public function borrarImagen() {
+
+    $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
+      
+      if($existeArchivo) {
+        unlink(CARPETA_IMAGENES . $this->imagen);
+      }
+    // $query = "SELECT imagen FROM propiedades WHERE idpropiedades = $id";
+    // $resultimagen = mysqli_query($db, $query);
+    // $propiedad = mysqli_fetch_assoc($resultimagen);
+    // unlink('../imagenes/'. $propiedad['imagen']);
+  }
+
 
   //Lista todas las registros
   public static function all() {

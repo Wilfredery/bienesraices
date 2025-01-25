@@ -42,13 +42,15 @@ use Intervention\Image\ImageManager as Image;
         $errores = $propiedad->validar();
 
         //Subida de archivos.
-        $nombreImagen = uniqid( rand()). $imagen['name'];
+        
         
         if($_FILES['propiedad']['tmp_name']['imagen']) {
             // $propiedad->crear();
-            //$manager = new Image(Driver::class);
-            $Image = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800,600);
-
+            // $nombreImagen = uniqid( rand()). $imagen['name'];
+            $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
+            $manager = new Image(Driver::class);
+            $image = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800,600);
+   
             $propiedad->setImage($nombreImagen); 
 
             
@@ -58,6 +60,9 @@ use Intervention\Image\ImageManager as Image;
         if(empty($errores)) {
 
             //$Image->save(CARPETA_IMAGENES . $nombreImagen);
+            if($_FILES['propiedad']['tmp_name']['imagen']) {
+                $image->save(CARPETA_IMAGENES . $nombreImagen);
+            }
             $propiedad->guardar();
                         //insertar en la base de datos
             // $query = "UPDATE propiedades SET titulo = '$titulo',  precio = '$precio', imagen = '$nombreImagen', Descripción = '$descrp', habitaciones = $habit, bathroom = $bath, estacionamiento = $estac, vendedores_idvendedores = $seller WHERE idpropiedades = $id";

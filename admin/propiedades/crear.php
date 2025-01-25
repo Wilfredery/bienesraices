@@ -25,14 +25,21 @@ use Intervention\Image\ImageManager as Image;
     //Array con mensaje de errores
     $errores = Propiedad::getError();
 
+    
     //Ejecutar el codigo luego del usuario envia el form.
     if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         
         $propiedad = new Propiedad($_POST['propiedad']);
-
+        // $nombreImagen = uniqid( rand()). $imagen['name'];
+        $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
         //Generar un nombre uncico para evitar que las imagenes se reescriban.
+        $manager = new Image(Driver::class);
+        $image = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800,600);
+
+        $propiedad->setImage($nombreImagen); 
+    }
     
-        $errores = $propiedad->validar();
+    $errores = $propiedad->validar();
 
         if(empty($errores)) {
             //Subida de archivos.            
@@ -42,17 +49,11 @@ use Intervention\Image\ImageManager as Image;
             }
 
             //Guarda la imagen en el servidor
-            $imagen->save(CARPETA_IMAGENES . $nombreImagen);
+            $image->save(CARPETA_IMAGENES . $nombreImagen);
 
 
-            $result = $propiedad->crear();
-            if($result) {
-                //redireccionar al usuario.
-                header("Location: /admin?mensaje=1");
-
-            }
+            $propiedad->guardar();
         }
-    }
         
     addingTemplates('header');
     ?>

@@ -29,22 +29,20 @@
             $id = filter_var($id, FILTER_VALIDATE_INT);
 
             if($id) {
+                $propiedad = Propiedad::find($id);
+                $propiedad->eliminar();
                 //Eliminar el archivo.
-                $query = "SELECT imagen FROM propiedades WHERE idpropiedades = $id";
-                $resultimagen = mysqli_query($db, $query);
-                $propiedad = mysqli_fetch_assoc($resultimagen);
-                unlink('../imagenes/'. $propiedad['imagen']);
+
                 // var_dump($propiedad['imagen']);
                 // echo $query;
                 // exit;
-                //Elimina la propiedad.
-                $query =  "DELETE FROM propiedades WHERE idpropiedades = $id";
-                
-                $resultado = mysqli_query($db, $query);
 
-                if($resultado) {
-                    header('Location: /admin?mensaje=3');
-                }
+                
+                // $resultado = mysqli_query($db, $query);
+
+                // if($resultado) {
+                //     header('Location: /admin?mensaje=3');
+                // }
             }
         }
         //Template agregado
