@@ -3,9 +3,12 @@
     estaAuth();
 
     use App\Propiedad;
+    use App\Vendedor;
 
     //Implementar un metodo para obtener todas las propiedades
     $propiedades = Propiedad::all();
+    $vendedores = Vendedor::all();
+
     // debug($propiedades);
 
         // if(!$auth) {

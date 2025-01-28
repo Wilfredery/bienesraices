@@ -36,18 +36,20 @@
         
         <fieldset>
             <legend>Vendedor</legend>
-
-            <select name="propiedad[vendedor]" id="" value="<?php echo sanitizar($propiedad->vendedores_idvendedores) ?>">
-                <option value="">--Seleccionar--</option>
+            <label for="Vendedor">Vendedor</label>
+            <select name="propiedad[vendedores_idvendedores]" id="vendedor" >
+                <option selected value="">--Seleccionar--</option>
                 <!-- <option value="1">Juan</option>
                 <option value="2">Pablito</option> -->
 
-                <?php while( $vendedor = mysqli_fetch_assoc($resultado) ): ?>
-                    <option <?php echo $vendedor === $vendedor['idvendedores'] ? 'selected' : ''; ?>  value="<?php echo sanitizar($vendedor['idvendedores']); ?>">
-                         <?php echo $vendedor['nombre']. " ". $vendedor['apellido']; ?> 
+                <?php foreach ( $vendedores as $vendedor ) { ?>
+                    <option 
+                    <?php echo $propiedad->vendedores_idvendedores == $vendedor->idvendedores ? 'selected' : ''; ?>
+                    value="<?php echo sanitizar($vendedor->idvendedores)?>">
+                    <?php echo sanitizar($vendedor->nombre) . " " . sanitizar($vendedor->apellido);?> 
                     </option>
                 
-                <?php endwhile; ?>
+                <?php } ?>
 
             </select>
         </fieldset>
