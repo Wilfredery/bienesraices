@@ -4,29 +4,18 @@
     use App\Propiedad;
     use App\Vendedor;
 use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager as Image;
 
 
     // debug($propiedad);
 
     estaAuth();
     $propiedad = new Propiedad;
+    use Intervention\Image\ImageManager as Image;
 
     //Consultas para obtener tod los vendedores.
-    $vendedores = Vendedor::all();
-    
-    // if(!$auth) {
-    //     header('Location: /');
-    // }
-
-    //base de datos
-    //Consultar para obtener los vendedores
-
-
-    //Array con mensaje de errores
+    $vendedor = Vendedor::all();
     $errores = Propiedad::getError();
 
-    
     //Ejecutar el codigo luego del usuario envia el form.
     if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         
@@ -34,13 +23,14 @@ use Intervention\Image\ImageManager as Image;
         // $nombreImagen = uniqid( rand()). $imagen['name'];
         $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
         //Generar un nombre uncico para evitar que las imagenes se reescriban.
+        if($_FILES['propiedad']['tmp_name']['imagen']) {
         $manager = new Image(Driver::class);
         $image = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800,600);
 
         $propiedad->setImage($nombreImagen); 
-    }
-    
-    $errores = $propiedad->validar();
+        }
+        
+        $errores = $propiedad->validar();
 
         if(empty($errores)) {
             //Subida de archivos.            
@@ -55,6 +45,9 @@ use Intervention\Image\ImageManager as Image;
 
             $propiedad->guardar();
         }
+    }
+    
+
         
     addingTemplates('header');
     ?>

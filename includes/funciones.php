@@ -36,4 +36,11 @@ function sanitizar($html) : string {
     $sanit = htmlspecialchars($html);
     return $sanit;
 }
-?>
+
+
+//Validar tipo de contenido propiedad/vendedores
+function validarTipoeCont($tipo) {
+    $tipos = ['vendedor','propiedad'];
+
+    return in_array($tipo, $tipos);
+}

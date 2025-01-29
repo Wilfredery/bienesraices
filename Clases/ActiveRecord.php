@@ -20,7 +20,7 @@ protected static $tabla = '';
   }
 
   public function guardar() {
-    if(!is_null($this->idpropiedades)) {
+    if(!is_null($this->id)) {
       //actualizar
       $this->actualizar();
       
@@ -65,7 +65,7 @@ protected static $tabla = '';
     }
     $query = "UPDATE " . static::$tabla . " SET ";
     $query .= join(', ', $valores);
-    $query .= "WHERE idpropiedades = '" . self::$db->escape_string($this->idpropiedades). "' ";
+    $query .= "WHERE id = '" . self::$db->escape_string($this->id). "' ";
     $query .= " Limit 1 ";
     
     $resultado = self::$db->query($query);
@@ -80,7 +80,7 @@ protected static $tabla = '';
   //Eliminar un registro
   public function eliminar() {
     //Elimina la propiedad.
-    $query =  "DELETE FROM ". static::$tabla ." WHERE idpropiedades = " . self::$db->escape_string($this->idpropiedades) . " LIMIT 1";
+    $query =  "DELETE FROM ". static::$tabla ." WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
 
     $resultado = self::$db->query($query);
 
@@ -97,10 +97,10 @@ protected static $tabla = '';
   public function atributos() {
     $atributos = [];
 
-    foreach(self::$columnasDB as $columna) {
+    foreach(static::$columnasDB as $columna) {
       //Eliminando el id paraque no se sinitize.
       //Si se cumple, continua con el siguiente (continue)
-      if($columna === 'idpropiedades') continue;
+      if($columna === 'id') continue;
       $atributos[$columna] = $this->$columna;
     }
     return $atributos;
@@ -125,44 +125,13 @@ protected static $tabla = '';
   }
 
   public function validar() {
-    if(!$this->titulo) {
-      self::$errores[] = 'Debes agregar un titulo';
-    }
-    
-    if(!$this->precio) {
-      self::$errores[] = 'Debes agregar un precio';
-    }
-
-    if(strlen($this->Descripción ) < 50) {
-      self::$errores[] = 'Su descrip debe de ser mayor a 50 caracteres de letras.';
-    }
-
-    if(!$this->habitaciones) {
-      self::$errores[] = 'Debes agregar la cantidad de habitaciones';
-    }
-    
-    if(!$this->bathroom) {
-      self::$errores[] = 'Debes agregar la cantidad de bathrooms';
-    }
-
-    if(!$this->estacionamiento) {
-      self::$errores[] = 'Debes agregar la cantidad de estacionamientos';
-    }
-
-    if(!$this->vendedores_idvendedores) {
-      self::$errores[] = 'Debes agregar al vendedor';
-    }
-
-    if(!$this->imagen) {
-      self::$errores[] = 'La imagen es obligatoria.';
-    }
-
-    return self::$errores;
+    static::$errores = [];
+    return static::$errores;
   }
 
   public function setImage($imagen) {
     //Elimina la iamgen previa.
-    if(!is_null($this->idpropiedades)) {
+    if(!is_null($this->id)) {
       //Comprobar si existe el archivo.
       $this->borrarImagen();
     }
@@ -198,7 +167,7 @@ protected static $tabla = '';
 
   //Busca una registro por su id.
   public static function find($id){
-    $query = "SELECT * FROM ". static::$tabla ." WHERE idpropiedades = $id";
+    $query = "SELECT * FROM ". static::$tabla ." WHERE id = $id";
     $resultado = self::consultSQL($query);
     return array_shift($resultado);
   }
@@ -212,7 +181,7 @@ protected static $tabla = '';
 
     $array = [];
     while($registro = $resultado->fetch_assoc() ) {
-      $array[] = self::crearObj($registro);
+      $array[] = static::crearObj($registro);
     } 
 
     // debug($array);
