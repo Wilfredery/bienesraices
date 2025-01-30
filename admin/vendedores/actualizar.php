@@ -1,15 +1,37 @@
 <?php
     require '../../includes/app.php';
     use App\Vendedor;
-
     estaAuth();
 
-    $vendedor = new Vendedor;
+    //Validar que sea un id valido.
+    $id = $_GET['id'];
+    $id = filter_var($id, FILTER_VALIDATE_INT);
+
+    if(!$id) {
+        header('Location: /admin');
+    }
+    
+    //Obtener el arreglo del vendedor.
+    $vendedor = Vendedor::find($id);
+   
+
+    //Arreglo con mensajes de errores.
     $errores = Vendedor::getError();
 
     if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-        
-    }
+        //Asignar los valores
+        $args = $_POST['vendedor'];
+
+        //Sincronizar objeto en memoria con lo que el usuario escribio.
+        $vendedor->sincronizar($args);
+
+        //validacion por si se le olvida rellenar un campo.
+        $errores = $vendedor->validar();
+
+        if(empty($errores)) {
+            $vendedor->guardar();
+        }
+    }   
 
     addingTemplates('header');
 
@@ -29,7 +51,7 @@
     <?php endforeach; ?>    
 
 
-    <form class="formulario" method="POST" action="/admin/vendedores/actualizar.php">
+    <form class="formulario" method="POST">
 
         <?php include '../../includes/templates/formularios_vendedores.php'; ?>
 

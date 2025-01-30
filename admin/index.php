@@ -2,21 +2,22 @@
     require '../includes/app.php';
     estaAuth();
 
+    //Importando las clases.
     use App\Propiedad;
     use App\Vendedor;
 
     //Implementar un metodo para obtener todas las propiedades
-    $propiedades = Propiedad::all();
-    $vendedores = Vendedor::all();
+    $propiedad = Propiedad::all();
+    $vendedor = Vendedor::all();
 
     // debug($propiedades);
 
         //mostrar mensaje condicional
-        $mensaje = $_GET['mensaje'] ?? null;
+        $mensajeAlerta = $_GET['mensaje'] ?? null;
         
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             
-            
+            //Validar ID
             $id = $_POST['id'];
             $id = filter_var($id, FILTER_VALIDATE_INT);
 
@@ -26,13 +27,13 @@
                     
                     //Compara lo que se va a eliminar.
                     if($tipo === 'vendedor') {
-                        $vendedores = Vendedor::find($id);    
+                        $vendedor = Vendedor::find($id);    
                         //Eliminar el archivo.
-                        $vendedores->eliminar();
+                        $vendedor->eliminar();
                     } else if ($tipo === 'propiedad') {
-                        $propiedades = Propiedad::find($id);    
+                        $propiedad = Propiedad::find($id);    
                         //Eliminar el archivo.
-                        $propiedades->eliminar();
+                        $propiedad->eliminar();
                     }
                 }
 
@@ -47,17 +48,11 @@
 <main class="contenedor seccion">
     <h1>Administrador de dinero de Bienes Raices</h1>
 
-    <?php if($mensaje == 1): ?>
-
-        <p class="alerta exito">Anuncio creado correctamente</p>
-
-    <?php elseif($mensaje == 2): ?>
-    <p class="alerta exito">Anuncio actualizado correctamente</p>
-
-    <?php elseif($mensaje == 3): ?>
-        <p class="alerta exito">Anuncio borrado correctamente</p>
-
-    <?php endif; ?>
+    <?php
+        $mensaje = mostrarNotificacion(intval($mensajeAlerta));
+        if($mensaje) { ?>
+            <p class="alerta exito"><?php echo sanitizar($mensaje); ?></p>
+        <?php } ?>
 
     <a href="/admin/propiedades/crear.php" class="boton boton-verde">Nueva propiedad</a>
 
@@ -75,7 +70,7 @@
 
         <tbody> <!--Mostrar los resultados-->
 
-            <?php foreach( $propiedades as $propiedad): ?>
+            <?php foreach( $propiedad as $propiedad): ?>
 
             <tr>
                 <td><?php echo $propiedad->id; ?> </td>
@@ -112,7 +107,7 @@
 
         <tbody> <!--Mostrar los resultados-->
 
-            <?php foreach( $vendedores as $vendedor): ?>
+            <?php foreach( $vendedor as $vendedor): ?>
 
             <tr>
                 <td> <?php echo $vendedor->id; ?> </td>
@@ -126,7 +121,7 @@
                         <input class="boton-rojo-block" value="Eliminar" type="submit" >
                     </form>
                     
-                    <a class="boton-amarillo-block" href="admin/vendedores/actualizar.php?id=<?php echo $propiedad->id; ?>">Actualizar</a>
+                    <a class="boton-amarillo-block" href="admin/vendedores/actualizar.php?id=<?php echo $vendedor->id; ?>">Actualizar</a>
                 </td>
             </tr>
 

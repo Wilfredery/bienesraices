@@ -68,7 +68,7 @@ use Intervention\Image\Drivers\Gd\Driver;
     <?php endforeach; ?>    
 
 
-    <form class="formulario" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
+    <form class="formulario" method="POST" enctype="multipart/form-data">
 
         <?php include '../../includes/templates/formularios_propiedades.php'; ?>
 

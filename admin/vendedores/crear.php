@@ -8,7 +8,17 @@
     $errores = Vendedor::getError();
 
     if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-        
+        //Crear una nueva instancia.
+        $vendedor = new Vendedor($_POST['vendedor']);
+
+        //Validar que no haya campos vacios.
+
+        $errores = $vendedor->validar();
+
+        if(empty($errores)) {
+            $vendedor->guardar();
+        }
+
     }
 
     addingTemplates('header');
@@ -29,7 +39,7 @@
     <?php endforeach; ?>    
 
 
-    <form class="formulario" method="POST" action="/admin/vendedores/crear.php">
+    <form class="formulario" method="POST">
 
         <?php include '../../includes/templates/formularios_vendedores.php'; ?>
 
