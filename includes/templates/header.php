@@ -1,9 +1,5 @@
 <?php
     
-    //echo "<pre>";
-    // var_dump($_SESSION);
-    // echo "</pre>";
-
     if(!isset($_SESSION)) {
         session_start();//Esto permitio el continuo inicio de sesion.
     }
@@ -48,10 +44,6 @@
             </div>
 
             <?php 
-
-                // if($inicio) {
-                //     echo "<h1>Venta de Casas y Departaments Exclusivos de lujo</h1>";
-                // }
 
                 echo $inicio ? "<h1>Venta de Casas y Departamentos Exclusivos de lujo</h1>" : '';
 

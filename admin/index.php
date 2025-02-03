@@ -93,7 +93,7 @@
         </tbody>
     </table>
 
-    <a href="/admin/vendedores/crear.php" class="boton boton-verde">Nuevo/a vendedor</a>
+    
     <h2>Vendedores/as</h2>
     <table class="propiedades">
         <thead>
