@@ -8,10 +8,8 @@ use Intervention\Image\ImageManager as Image;
     require '../../includes/app.php';
     estaAuth();
 
-    // if(!$auth) {
-    //     header('Location: /');
-    // }
-
+    
+    //validar la url por ID valida.
     $id = $_GET['id'];
     $id = filter_var($id, FILTER_VALIDATE_INT);
 
